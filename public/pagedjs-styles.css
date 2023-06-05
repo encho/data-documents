@@ -1,0 +1,25 @@
+
+@page {
+    size: 1350px 1350px;
+    margin: 75px 75px;
+    background-color: white;
+  
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 24px;
+      color: #222222;
+    }
+    @bottom-left {
+      content: element(logoRunning);
+    }
+  }
+
+  h2 {
+    break-before: page;
+  }
+
+  .LogoToRemoveFromFlow {
+    position: running(logoRunning);
+  }
