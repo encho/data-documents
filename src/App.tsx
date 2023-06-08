@@ -128,7 +128,11 @@ function App() {
         </div>
       </TitledPage>
 
-      <TitledPage title="SVG Circle Syntax" currentPageNr={3} totalPagesNr={4}>
+      <TitledPage
+        title="Basic Circle Syntax"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
         <div className="h-full flex items-center justify-center flex-col gap-20">
           <CircleSyntaxCode />
 
@@ -206,6 +210,80 @@ function App() {
       >
         <div className="h-full flex items-center justify-center">
           <StyledCircleCode />
+        </div>
+      </TitledPage>
+
+      <TitledPage
+        title="Circle Transformations"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
+        <div className="h-full flex items-center justify-center flex-col gap-20">
+          <List>
+            {[
+              <div>
+                <span className="font-semibold">Translation:</span> Move the
+                circle using the translate transformation to change its position
+                on the SVG canvas.
+              </div>,
+              <div>
+                <span className="font-semibold">Scaling:</span> Scale the
+                circle's size using the scale transformation, which can make it
+                larger or smaller.
+              </div>,
+              <div>
+                <span className="font-semibold">Rotation:</span> Rotate the
+                circle around its center using the rotate transformation.
+              </div>,
+            ].map((content, i) => (
+              <ListItem key={i}>{content}</ListItem>
+            ))}
+          </List>
+        </div>
+      </TitledPage>
+
+      <TitledPage
+        title="Transformations Example"
+        currentPageNr={4}
+        totalPagesNr={5}
+      >
+        <svg width={1200} height={1000} style={{ backgroundColor: "#f0f0f0" }}>
+          <circle
+            cx={600}
+            cy={500}
+            r={200}
+            transform="translate(-400, 0)"
+            fill="yellow"
+            stroke="magenta"
+            strokeWidth={10}
+          />
+        </svg>
+      </TitledPage>
+
+      <TitledPage
+        title="Transformations JSX Code"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
+        <div className="h-full flex items-center justify-center">
+          <TransformedCircleCode />
+        </div>
+      </TitledPage>
+
+      <TitledPage
+        title="Circle Animation and Interactivity"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
+        <div className="h-full flex items-center justify-center flex-col gap-20">
+          <List>
+            {[
+              "Circle properties can be animated with animation libraries in React, CSS-animations or SVG-specific animation attributes like 'animate'.",
+              "SVG circles can respond to user interactions, such as mouse clicks or hover effects (i.e. by implementing onClick, onMouseOver etc. callbacks in React).",
+            ].map((content, i) => (
+              <ListItem key={i}>{content}</ListItem>
+            ))}
+          </List>
         </div>
       </TitledPage>
     </div>
@@ -319,6 +397,33 @@ const StyledCircleCode = () => {
       fill="yellow"
       stroke="magenta" 
       strokeWidth={10}
+      />
+  </svg>
+  `;
+  return (
+    <div className="rounded-md overflow-hidden">
+      <SyntaxHighlighter
+        language="javascript"
+        style={srcery}
+        customStyle={{ fontSize: "26px" }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
+const TransformedCircleCode = () => {
+  const codeString = `
+  <svg width={1200} height={1000} style={{ backgroundColor: "#f0f0f0" }}>
+      <circle
+        cx={600}
+        cy={500}
+        r={200}
+        transform="translate(-400, 0)"
+        fill="yellow"
+        stroke="magenta"
+        strokeWidth={10}
       />
   </svg>
   `;
