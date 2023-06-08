@@ -37,6 +37,19 @@ function MyPageNumber({ current, total }: { current: number; total: number }) {
   );
 }
 
+const List = ({ children }: { children: ReactNode }) => {
+  return <ul className="flex w-full flex-col gap-10">{children}</ul>;
+};
+
+const ListItem = ({ children }: { children: ReactNode }) => {
+  return (
+    <li className="flex w-full gap-8 text-6xl items-top font-inter font-normal leading-[1.3]">
+      <div className="-mt-0.5">•</div>
+      <div>{children}</div>
+    </li>
+  );
+};
+
 function App() {
   useLayoutEffect(() => {
     (document.querySelector("#preview") as Element).innerHTML = "";
@@ -60,14 +73,8 @@ function App() {
 
   return (
     <div>
-      <div
-      // className="FrontPage"
-      // style={{ breakBefore: "page" }}
-      >
-        <div
-          className="FrontPage"
-          // style={{ breakBefore: "page" }}
-        >
+      <div>
+        <div className="FrontPage">
           <MyLogo />
           <MyTitle title="Data Visualization with SVG & React.js – The Circle" />
           <MyPageNumber current={1} total={3} />
@@ -88,12 +95,31 @@ function App() {
           </div>
         </div>
       </div>
-      <TitledPage title="The Code" currentPageNr={2} totalPagesNr={3}>
+
+      <TitledPage title="Introduction" currentPageNr={2} totalPagesNr={4}>
+        <div className="h-full w-full flex items-center">
+          <List>
+            {[
+              "SVG (Scalable Vector Graphics) is a language for describing 2D graphics in XML format.",
+              "SVG allows us to create dynamic and scalable graphics that can be easily customized.",
+              "Circle is one of the basic shapes that can be created using SVG.",
+            ].map((content, i) => (
+              <ListItem key={i}>{content}</ListItem>
+            ))}
+          </List>
+        </div>
+      </TitledPage>
+
+      <TitledPage
+        title="Example 1: JSX Code"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
         <div className="h-full flex items-center justify-center">
           <CircleCode />
         </div>
       </TitledPage>
-      <TitledPage title="Result" currentPageNr={3} totalPagesNr={3}>
+      <TitledPage title="Example 1: Result" currentPageNr={4} totalPagesNr={5}>
         <svg width={1200} height={1000} style={{ backgroundColor: "#f0f0f0" }}>
           <circle cx={600} cy={500} r={100} fill="#222222" />
         </svg>
@@ -119,9 +145,9 @@ const TitledPage = ({
     <div style={{ breakBefore: "page" }}>
       <div className="NumberedPage">
         <MyPageNumber current={currentPageNr} total={totalPagesNr} />
-        <div className="flex justify-centerxxx items-center h-[1200px] rounded-sm overflow-hidden">
+        <div className="flex items-center h-[1200px] rounded-sm overflow-hidden">
           <div className="flex flex-col h-full w-full justify-center">
-            <div className="font-inter pb-8 flex items-end text-7xl font-semibold h-[100px]xxx bg-yellow-500xxx">
+            <div className="font-inter pb-8 flex items-end text-8xl font-semibold h-[100px]xxx bg-yellow-500xxx">
               {title}
             </div>
             <div className="h-[1000px] bg-orange-300xxx">{children}</div>
