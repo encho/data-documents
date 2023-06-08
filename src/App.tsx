@@ -1,9 +1,13 @@
 import "./App.css";
 import { Previewer } from "pagedjs";
 import SyntaxHighlighter from "react-syntax-highlighter";
+// import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { srcery } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useLayoutEffect, ReactNode } from "react";
 import { range } from "lodash";
+import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
+
+// SyntaxHighlighter.registerLanguage("jsx", jsx);
 
 function MyTitle({ title }: { title: string }) {
   return (
@@ -41,9 +45,23 @@ const List = ({ children }: { children: ReactNode }) => {
   return <ul className="flex w-full flex-col gap-10">{children}</ul>;
 };
 
-const ListItem = ({ children }: { children: ReactNode }) => {
+const ListItem = ({
+  children,
+  fontSize = "normal",
+}: {
+  children: ReactNode;
+  fontSize?: "small" | "normal" | "tiny";
+}) => {
+  const fontSizeClass =
+    fontSize === "normal"
+      ? "text-6xl"
+      : fontSize === "small"
+      ? "text-5xl"
+      : "text-4xl";
   return (
-    <li className="flex w-full gap-8 text-6xl items-top font-inter font-normal leading-[1.3]">
+    <li
+      className={`flex w-full gap-8 ${fontSizeClass} items-top font-inter font-normal leading-[1.3]`}
+    >
       <div className="-mt-0.5">•</div>
       <div>{children}</div>
     </li>
@@ -110,8 +128,34 @@ function App() {
         </div>
       </TitledPage>
 
+      <TitledPage title="SVG Circle Syntax" currentPageNr={3} totalPagesNr={4}>
+        <div className="h-full flex items-center justify-center flex-col gap-20">
+          <CircleSyntaxCode />
+
+          <List>
+            {[
+              "cx: Specifies the x-coordinate of the center of the circle.",
+              "cy: Specifies the y-coordinate of the center of the circle.",
+              "r: Specifies the radius of the circle",
+            ].map((content, i) => (
+              <ListItem key={i}>{content}</ListItem>
+            ))}
+          </List>
+        </div>
+      </TitledPage>
+
       <TitledPage
-        title="Example 1: JSX Code"
+        title="Basic Circle Example"
+        currentPageNr={4}
+        totalPagesNr={5}
+      >
+        <svg width={1200} height={1000} style={{ backgroundColor: "#f0f0f0" }}>
+          <circle cx={600} cy={500} r={100} />
+        </svg>
+      </TitledPage>
+
+      <TitledPage
+        title="Basic Circle JSX Code"
         currentPageNr={3}
         totalPagesNr={4}
       >
@@ -119,10 +163,50 @@ function App() {
           <CircleCode />
         </div>
       </TitledPage>
-      <TitledPage title="Example 1: Result" currentPageNr={4} totalPagesNr={5}>
+
+      <TitledPage title="Styling the Circle" currentPageNr={3} totalPagesNr={4}>
+        <div className="h-full flex items-center justify-center flex-col gap-20">
+          <StyledCircleSyntaxCode />
+
+          <List>
+            {[
+              "Fill color: Use the fill attribute to set the color of the circle. It can be a named color, RGB value, or a gradient.",
+              "Stroke color and width: Use the stroke attribute to set the color of the circle's outline, and the stroke-width attribute to adjust the thickness of the outline.",
+              "Opacity: Use the opacity attribute to control the transparency of the circle.",
+            ].map((content, i) => (
+              <ListItem fontSize="tiny" key={i}>
+                {content}
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      </TitledPage>
+
+      <TitledPage
+        title="Styled Circle Example"
+        currentPageNr={4}
+        totalPagesNr={5}
+      >
         <svg width={1200} height={1000} style={{ backgroundColor: "#f0f0f0" }}>
-          <circle cx={600} cy={500} r={100} fill="#222222" />
+          <circle
+            cx={600}
+            cy={500}
+            r={200}
+            fill="yellow"
+            stroke="magenta"
+            strokeWidth={10}
+          />
         </svg>
+      </TitledPage>
+
+      <TitledPage
+        title="Styled Circle JSX Code"
+        currentPageNr={3}
+        totalPagesNr={4}
+      >
+        <div className="h-full flex items-center justify-center">
+          <StyledCircleCode />
+        </div>
       </TitledPage>
     </div>
   );
@@ -165,7 +249,77 @@ const CircleCode = () => {
     height={1000}
     style={{backgroundColor: "#f0f0f0"}}
   >
-    <circle cx={600} cy={500} r={100} fill="#222222" />
+    <circle cx={600} cy={500} r={100} />
+  </svg>
+  `;
+  return (
+    <div className="rounded-md overflow-hidden">
+      <SyntaxHighlighter
+        language="javascript"
+        style={srcery}
+        customStyle={{ fontSize: "26px" }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
+const CircleSyntaxCode = () => {
+  const codeString = `
+  <circle cx="x-coordinate" cy="y-coordinate" r="radius" />
+  `;
+  return (
+    <div className="rounded-md overflow-hidden">
+      <SyntaxHighlighter
+        language="javascript"
+        style={srcery}
+        customStyle={{ fontSize: "26px" }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
+const StyledCircleSyntaxCode = () => {
+  const codeString = `
+  <circle 
+    {...basicProps}
+    fill="fill-color"
+    stroke="stroke-color"
+    strokeWidth="stroke-width"
+    opacity="transparency"
+  />
+  `;
+  return (
+    <div className="rounded-md overflow-hidden">
+      <SyntaxHighlighter
+        language="javascript"
+        style={srcery}
+        customStyle={{ fontSize: "26px" }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
+const StyledCircleCode = () => {
+  const codeString = `
+  <svg
+    width={1200}
+    height={1000}
+    style={{backgroundColor: "#f0f0f0"}}
+  >
+    <circle 
+      cx={600}
+      cy={500}
+      r={200}
+      fill="yellow"
+      stroke="magenta" 
+      strokeWidth={10}
+      />
   </svg>
   `;
   return (
